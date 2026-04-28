@@ -45,6 +45,7 @@ import {
   formatSignedTemperature,
 } from './utils/weather';
 import { usePushNotifications } from './hooks/usePushNotifications';
+import { useRainViewerLayer } from './hooks/useRainViewerLayer';
 import { useWeatherData } from './hooks/useWeatherData';
 import { useWeatherSelection } from './hooks/useWeatherSelection';
 
@@ -60,6 +61,7 @@ function App() {
     persistedSelection.selectedPoint
   );
   const [favorites, setFavorites] = useState<FavoritePoint[]>(loadFavoritesFromStorage);
+  const rainLayerUrl = useRainViewerLayer();
   const {
     error,
     loading,
@@ -518,6 +520,7 @@ function App() {
           isCurrentFavorite={isCurrentFavorite}
           mapCenter={mapCenter}
           mapSectionRef={mapSectionRef}
+          rainLayerUrl={rainLayerUrl}
           selectedPoint={selectedPoint}
           setCitySearchQuery={setCitySearchQuery}
           weather={weather}

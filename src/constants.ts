@@ -37,5 +37,7 @@ export const DEFAULT_CENTER: CoordinatePoint = {
 
 export const BARNAUL_CITY_NAME = 'Барнаул';
 
-export const RAIN_LAYER_URL =
+export const RAINVIEWER_API_URL = 'https://api.rainviewer.com/public/weather-maps.json';
+
+export const FALLBACK_RAIN_LAYER_URL =
   'https://tilecache.rainviewer.com/v2/radar/nowcast_0/256/{z}/{x}/{y}/6/1_1.png';
