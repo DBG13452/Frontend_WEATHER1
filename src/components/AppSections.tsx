@@ -1,6 +1,6 @@
 import React from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
-import { NOTIFICATION_PREFERENCE_OPTIONS, RAIN_LAYER_URL } from '../constants';
+import { NOTIFICATION_PREFERENCE_OPTIONS } from '../constants';
 import type {
   CitySummary,
   CoordinatePoint,
@@ -440,6 +440,7 @@ export function WeatherMapSection({
   isCurrentFavorite,
   mapCenter,
   mapSectionRef,
+  rainLayerUrl,
   selectedPoint,
   setCitySearchQuery,
   weather,
@@ -452,6 +453,7 @@ export function WeatherMapSection({
   isCurrentFavorite: boolean;
   mapCenter: [number, number];
   mapSectionRef: React.RefObject<HTMLElement | null>;
+  rainLayerUrl: string;
   selectedPoint: CoordinatePoint | null;
   setCitySearchQuery: React.Dispatch<React.SetStateAction<string>>;
   weather: WeatherDetails | null;
@@ -477,12 +479,17 @@ export function WeatherMapSection({
             scrollWheelZoom
           >
             <RecenterMap center={mapCenter} />
-            <TileLayer maxZoom={19} url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
             <TileLayer
+              className="base-map-layer"
+              maxZoom={19}
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <TileLayer
+              className="rainviewer-layer"
               maxNativeZoom={10}
               maxZoom={10}
-              opacity={0.55}
-              url={RAIN_LAYER_URL}
+              opacity={0.5}
+              url={rainLayerUrl}
             />
             {selectedPoint && (
               <Marker position={[selectedPoint.latitude, selectedPoint.longitude]}>
