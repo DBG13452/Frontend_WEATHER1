@@ -26,6 +26,14 @@ export function useWeatherSelection({
       }
     : null;
   const shouldShowHeroLoading = favorites.length > 0 && !heroCity && (loading || weatherLoading);
+  const selectedFavoriteIndex = useMemo(() => {
+    if (!selectedPoint) {
+      return -1;
+    }
+
+    const selectedPointId = buildPointId(selectedPoint.latitude, selectedPoint.longitude);
+    return favorites.findIndex((favorite) => favorite.id === selectedPointId);
+  }, [favorites, selectedPoint]);
 
   const mapCenter = useMemo<[number, number]>(() => {
     if (selectedPoint) {
@@ -81,6 +89,7 @@ export function useWeatherSelection({
     isCurrentFavorite: currentFavorite !== null,
     isTomorrowAlertEnabled,
     mapCenter,
+    selectedFavoriteIndex,
     shouldShowHeroLoading,
   };
 }

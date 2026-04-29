@@ -61,14 +61,24 @@ export function TopActions({
 }
 
 export function HeroSummary({
+  canNavigateFavorites,
+  disableFavoriteNavigation,
+  favoritePositionLabel,
   formatTemperature,
+  handleNextFavorite,
+  handlePreviousFavorite,
   heroCity,
   heroSectionRef,
   overview,
   shouldShowHeroLoading,
   weather,
 }: {
+  canNavigateFavorites: boolean;
+  disableFavoriteNavigation: boolean;
+  favoritePositionLabel: string | null;
   formatTemperature: FormatTemperature;
+  handleNextFavorite: () => void;
+  handlePreviousFavorite: () => void;
   heroCity: HeroCity;
   heroSectionRef: React.RefObject<HTMLElement | null>;
   overview: Overview | null;
@@ -79,20 +89,49 @@ export function HeroSummary({
     <section className="hero hero--centered hero--single" ref={heroSectionRef}>
       <div className="hero__panel hero__panel--summary">
         <p className="hero__panel-label">{overview?.title ?? 'Сводка'}</p>
-        <h2>
-          {heroCity?.city ?? (
-            shouldShowHeroLoading ? (
-              <span className="hero-loading" aria-label="Загружаем данные о погоде" role="status">
-                <span className="hero-loading__spinner" aria-hidden="true" />
-              </span>
-            ) : (
-              'Выберите город на карте или в Избранном'
-            )
+        <div className="hero__headline">
+          <h2 className="hero__city">
+            {heroCity?.city ?? (
+              shouldShowHeroLoading ? (
+                <span className="hero-loading" aria-label="Загружаем данные о погоде" role="status">
+                  <span className="hero-loading__spinner" aria-hidden="true" />
+                </span>
+              ) : (
+                'Выберите город на карте или в Избранном'
+              )
+            )}
+          </h2>
+        </div>
+        {favoritePositionLabel && (
+          <p className="hero__favorite-position">{favoritePositionLabel}</p>
+        )}
+        <div className="hero__temperature-row">
+          {canNavigateFavorites && (
+            <button
+              aria-label="Показать предыдущий город из избранного"
+              className="hero__favorite-nav"
+              disabled={disableFavoriteNavigation}
+              onClick={handlePreviousFavorite}
+              type="button"
+            >
+              &lt;
+            </button>
           )}
-        </h2>
-        <p className="hero__temperature">
-          {heroCity ? formatTemperature(heroCity.temperature_c) : '--'}
-        </p>
+          <p className="hero__temperature">
+            {heroCity ? formatTemperature(heroCity.temperature_c) : '--'}
+          </p>
+          {canNavigateFavorites && (
+            <button
+              aria-label="Показать следующий город из избранного"
+              className="hero__favorite-nav"
+              disabled={disableFavoriteNavigation}
+              onClick={handleNextFavorite}
+              type="button"
+            >
+              &gt;
+            </button>
+          )}
+        </div>
         <p className="hero__meta">
           Ощущается как: {weather ? formatTemperature(weather.feels_like_c) : '--'}
         </p>

@@ -90,6 +90,7 @@ function App() {
     isCurrentFavorite,
     isTomorrowAlertEnabled,
     mapCenter,
+    selectedFavoriteIndex,
     shouldShowHeroLoading,
   } = useWeatherSelection({
     favorites,
@@ -247,6 +248,17 @@ function App() {
     setSelectedPoint(point);
   };
 
+  const selectFavorite = (favorite: FavoritePoint) => {
+    setError('');
+    setSelectionMode('coordinates');
+    setSelectedCity('');
+    setSelectedPoint({
+      latitude: favorite.latitude,
+      longitude: favorite.longitude,
+    });
+    setCitySearchQuery(favorite.label);
+  };
+
   const handleAddFavorite = () => {
     if (!weather || isCurrentFavorite) {
       return;
@@ -273,13 +285,34 @@ function App() {
   };
 
   const handleFavoriteSelect = (favorite: FavoritePoint) => {
-    setSelectionMode('coordinates');
-    setSelectedCity('');
-    setSelectedPoint({
-      latitude: favorite.latitude,
-      longitude: favorite.longitude,
-    });
-    setCitySearchQuery(favorite.label);
+    selectFavorite(favorite);
+  };
+
+  const handleFavoriteStep = (direction: -1 | 1) => {
+    if (favorites.length < 2) {
+      return;
+    }
+
+    let nextIndex = direction > 0 ? 0 : favorites.length - 1;
+    if (selectedFavoriteIndex >= 0) {
+      nextIndex =
+        (selectedFavoriteIndex + direction + favorites.length) % favorites.length;
+    }
+
+    const nextFavorite = favorites[nextIndex];
+    if (!nextFavorite) {
+      return;
+    }
+
+    selectFavorite(nextFavorite);
+  };
+
+  const handlePreviousFavorite = () => {
+    handleFavoriteStep(-1);
+  };
+
+  const handleNextFavorite = () => {
+    handleFavoriteStep(1);
   };
 
   const handleFavoriteRemove = (favoriteId: string) => {
@@ -438,6 +471,13 @@ function App() {
     setToastLines([]);
   };
 
+  const favoritePositionLabel =
+    favorites.length >= 2
+      ? selectedFavoriteIndex >= 0
+        ? `Избранное: ${selectedFavoriteIndex + 1} из ${favorites.length}`
+        : `Избранное: ${favorites.length} городов`
+      : null;
+
 
   return (
     <div className={`app-shell app-shell--${theme}`}>
@@ -453,7 +493,12 @@ function App() {
         />
 
         <HeroSummary
+          canNavigateFavorites={favorites.length >= 2}
+          disableFavoriteNavigation={weatherLoading}
+          favoritePositionLabel={favoritePositionLabel}
           formatTemperature={formatTemperature}
+          handleNextFavorite={handleNextFavorite}
+          handlePreviousFavorite={handlePreviousFavorite}
           heroCity={heroCity}
           heroSectionRef={heroSectionRef}
           overview={overview}

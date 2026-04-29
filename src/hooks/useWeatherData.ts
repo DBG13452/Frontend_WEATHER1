@@ -61,6 +61,7 @@ export function useWeatherData({
     const loadWeatherByCity = async () => {
       try {
         setError('');
+        setWeather(null);
         setWeatherLoading(true);
         const response = await axios.get<WeatherDetails>('/api/weather', {
           params: { city: selectedCity },
@@ -100,6 +101,7 @@ export function useWeatherData({
     const loadWeatherByCoordinates = async () => {
       try {
         setError('');
+        setWeather(null);
         setWeatherLoading(true);
         const response = await axios.get<WeatherDetails>('/api/weather/by-coordinates', {
           params: {

@@ -250,6 +250,7 @@
 
 .hero__panel--summary {
   min-height: 100%;
+  padding-bottom: 64px;
 }
 
 .hero__settings {
@@ -336,6 +337,66 @@
   font-size: 1.7rem;
 }
 
+.hero__headline {
+  width: 100%;
+  margin: 14px 0 0;
+}
+
+.hero__city {
+  margin: 0;
+  min-height: 2.1rem;
+  text-align: center;
+}
+
+.hero__temperature-row {
+  position: relative;
+  width: 100%;
+}
+
+.hero__favorite-position {
+  position: absolute;
+  left: 28px;
+  bottom: 24px;
+  margin: 0;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.hero__favorite-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel-strong);
+  color: var(--text);
+  font: inherit;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.hero__favorite-nav:first-of-type {
+  left: 0;
+}
+
+.hero__favorite-nav:last-of-type {
+  right: 0;
+}
+
+.hero__favorite-nav:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.hero__favorite-nav:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
 .hero-loading {
   display: inline-flex;
   align-items: center;
@@ -364,6 +425,10 @@
   font-size: clamp(2.5rem, 5vw, 4.4rem);
   font-weight: 800;
   letter-spacing: -0.05em;
+}
+
+.hero__temperature-row .hero__temperature {
+  padding: 0 64px;
 }
 
 .map-card,
@@ -445,6 +510,15 @@
   height: 100%;
   min-height: 420px;
   width: 100%;
+}
+
+.base-map-layer.leaflet-tile {
+  filter: saturate(0.75) contrast(0.9) brightness(0.88);
+}
+
+.rainviewer-layer.leaflet-tile {
+  filter: saturate(3.2) contrast(2.2) brightness(1.35)
+    drop-shadow(0 0 5px rgba(59, 130, 246, 0.75));
 }
 
 .custom-attribution {
@@ -873,6 +947,24 @@
 
   .hero__panel {
     padding-bottom: 20px;
+  }
+
+  .hero__panel--summary {
+    padding-bottom: 56px;
+  }
+
+  .hero__favorite-nav {
+    width: 40px;
+    height: 40px;
+  }
+
+  .hero__temperature-row .hero__temperature {
+    padding: 0 52px;
+  }
+
+  .hero__favorite-position {
+    left: 20px;
+    bottom: 18px;
   }
 
   .hero__settings {
