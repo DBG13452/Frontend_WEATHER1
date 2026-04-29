@@ -474,8 +474,8 @@ function App() {
   const favoritePositionLabel =
     favorites.length >= 2
       ? selectedFavoriteIndex >= 0
-        ? `Избранное: ${selectedFavoriteIndex + 1} из ${favorites.length}`
-        : `Избранное: ${favorites.length} городов`
+        ? `${selectedFavoriteIndex + 1} из ${favorites.length}`
+        : `${favorites.length} городов`
       : null;
 
 
